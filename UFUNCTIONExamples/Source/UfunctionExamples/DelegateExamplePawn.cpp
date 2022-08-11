@@ -16,9 +16,19 @@ void ADelegateExampleActor::BPNativeEventFunc_Implementation(const FString& Str2
 	UE_LOG(LogTemp, Display, TEXT(" [%s], Got String: %s"), *FString(__FUNCTION__), *Str2Print);
 }
 
-void ADelegateExampleActor::ExecFunc(float Num)
+void ADelegateExampleActor::ExecFunc(const float Num)
 {
 	UE_LOG(LogTemp, Display, TEXT("[%s], Got Str: %f"), *FString(__FUNCTION__), Num);
+}
+
+bool ADelegateExampleActor::ProcessConsoleExec(const TCHAR* Cmd, FOutputDevice& Ar, UObject* Executor)
+{
+	bool Handled = Super::ProcessConsoleExec(Cmd, Ar, Executor);
+	if (!Handled)
+	{
+		Handled = ExecTarget->ProcessConsoleExec(Cmd, Ar, Executor);
+	}
+	return Handled;
 }
 
 // Called when the game starts or when spawned
@@ -31,7 +41,11 @@ void ADelegateExampleActor::BeginPlay()
 	BPImpEventFunc2(Test);
 	UE_LOG(LogTemp, Log, TEXT("Got Value from BPImpEventFunc2, %f"), Test);
 	
-	// BPNativeEventFunc("TESTTESTTEST");
+	BPNativeEventFunc("Call From C++");
+
+	const auto World = GetWorld();
+	const FVector Pos = FVector(100, 0, 20);
+	ExecTarget = World->SpawnActor<AExecTargetPawn>(Pos, FRotator::ZeroRotator);
 }
 
 // Called every frame
