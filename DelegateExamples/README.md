@@ -1,3 +1,3 @@
 # UE4DelegateExample[WIP]
 
-This is a repo for demonstrating how to use delegates in UE4
+This is a repo for demonstrating how to use delegates in UE4.
