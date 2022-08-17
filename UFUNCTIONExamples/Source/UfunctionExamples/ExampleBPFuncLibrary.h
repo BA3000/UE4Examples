@@ -7,9 +7,11 @@ class UFUNCTIONEXAMPLES_API UExampleBPFuncLibrary final : public  UBlueprintFunc
 	GENERATED_BODY()
 
 public:
+	// BlueprintCallable Example
 	UFUNCTION(BlueprintCallable)
 	static void BPCallableExampleFunc();
 
+	// BlueprintPure Example
 	UFUNCTION(BlueprintPure)
 	static int BPPureExampleFunc(int L, int R);
 };
